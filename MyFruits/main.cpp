@@ -1,10 +1,9 @@
+#include"include\SqStack.h"
 #include<iostream>
-
-using namespace std;
+#include<string>
 
 int main()
 {
-	cout << "testing..." << endl;
 
 
 	return 0;
