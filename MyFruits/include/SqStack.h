@@ -1,8 +1,9 @@
 #ifndef STACK_H
 #define STACK_H 1
 
-#include<memory.h>
+#include<memory>
 #include<iostream>
+#include<string>
 using namespace std;
 
 #define MAX_SIZE 50
@@ -252,8 +253,46 @@ double compvalue(char *postexp)
 	return e;
 }
 
+bool judgelegal(string s1, string s2)
+{
+	SqStack *sc;
+	sc = new SqStack;
+	memset(sc, 0, sizeof(SqStack));
+	int i = 0, j = 0;
+	char e;
+	while (s2[i] != '\0')
+	{
+		if (s1[j] != s2[i] && s1[j] != '\0')
+		{
+			Push(sc, s1[j]);
+			j++;
+		}
+		else if (s1[j] == s2[i])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			Pop(sc, e);
+			if (e != s2[i])
+				return false;
+			i++;
+		}
+	}
+	return true;
+}
+
 void SqStackExample()
 {
+	string s1, s2;
+	cin >> s1 >> s2;
+	
+	if (judgelegal(s1, s2))
+		cout << "yes" << endl;
+	else
+		cout << "No" << endl;
+	
 	//ElemType a[] = { '1', '2', '3', '4', '5' };
 	//ElemType b[] = { 'a', 'b', 'b', 'a', '\0' };
 	//const int n = 5;
@@ -267,12 +306,14 @@ void SqStackExample()
 	//DispStack(S, n);
 	//DestroyStack(S);
 
-	char exp[] = "(56-20)/(4+2)";
-	char postexp[MAX_SIZE] = { 0 };
-	trans(exp, postexp);
-	cout << "中缀表达式：" << exp << endl
-		<< "后缀表达式：" << postexp << endl
-		<< "表达式的值：" << compvalue(postexp) << endl;
+	//char exp[] = "(56-20)/(4+2)";
+	//char postexp[MAX_SIZE] = { 0 };
+	//trans(exp, postexp);
+	//cout << "中缀表达式：" << exp << endl
+	//	<< "后缀表达式：" << postexp << endl
+	//	<< "表达式的值：" << compvalue(postexp) << endl;
+
+
 }
 
 #endif

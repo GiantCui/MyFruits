@@ -1,10 +1,9 @@
 #include"include\SqStack.h"
-#include<iostream>
-#include<string>
+
 
 int main()
 {
-
-
+	SqStackExample();
+	
 	return 0;
 }
