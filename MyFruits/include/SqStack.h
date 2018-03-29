@@ -27,12 +27,6 @@ void InitStack(SqStack *& S)
 	S->top = -1;
 }
 
-void InitStack1(SqStack1 *& S)
-{
-	S = new SqStack1;
-	S->top = -1;
-}
-
 bool Push(SqStack* &S, ElemType e)
 {
 	if (S->top == MAX_SIZE - 1)
