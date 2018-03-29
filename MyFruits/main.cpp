@@ -3,7 +3,6 @@
 
 int main()
 {
-	SqStackExample();
 	
 	return 0;
 }

@@ -23,5 +23,8 @@
     <ClInclude Include="include\SqStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\SqStackExamples.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
