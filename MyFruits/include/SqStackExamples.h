@@ -227,15 +227,14 @@ void SqStackExample()
 
 // 迷宫求解
 
-typedef struct
+typedef struct Box
 {
-	int i;	//当前方块的行号
-	int j;	//当前方块的列号
-	int di;	//di是下一可走相邻方位的方位号
-} Box;		//定义方块类型
+	int x;		//行坐标
+	int y;		//列坐标
+	int z;		//方向
+};
 
-
-int mg[8 + 2][8 + 2] =
+int MG[8 + 2][8 + 2] =				//二维地图
 {
 	{ 1, 1,1,1,1,1,1,1,1,  1 },
 	{ 1, 0,0,1,0,0,0,1,0,  1 },
@@ -249,76 +248,80 @@ int mg[8 + 2][8 + 2] =
 	{ 1, 1,1,1,1,1,1,1,1,  1 }
 };
 
-
-bool mgpath(int xi, int yi, int xe, int ye)	//求解路径为:(xi,yi)->(xe,ye)
+bool Dirction(int &i, int &j, int &di)		//判断下步方向
 {
-	Box path[MAX_SIZE], e;  int i, j, di, i1, j1, k;   bool find;
-	SqStack<Box> *st = 0;			//定义栈st
-	InitStack(st);				//初始化栈顶指针
-	e.i = xi; e.j = yi; e.di = -1;			//设置e为入口
-	Push(st, e);				//方块e进栈
-	mg[xi][yi] = -1;	//入口的迷宫值置为-1避免重复走到该方块
-
-	while (!StackEmpty(st))		//栈不空时循环
+	di = 0;
+	int dx, dy;
+	while (di < 4)
 	{
-		GetTop(st, e);		//取栈顶方块e
-		i = e.i; j = e.j; di = e.di;
-		if (i == xe && j == ye)		//找到了出口,输出该路径
+		switch (di)
 		{
-			printf("一条迷宫路径如下:\n");
-			k = 0;
-			while (!StackEmpty(st))
-			{
-				Pop(st, e);		//出栈方块e
-				path[k++] = e;	//将e添加到path数组中
-			}
-			while (k >= 1)
-			{
-				k--;
-				printf("\t(%d,%d)", path[k].i, path[k].j);
-				if ((k + 2) % 5 == 0)  //每输出每5个方块后换一行
-					printf("\n");
-			}
-			printf("\n");
-			DestroyStack(st);//销毁栈
-			return true;	//输出一条迷宫路径后返回true
+		case 0: dx = i - 1, dy = j; break;
+		case 1: dx = i, dy = j + 1; break;
+		case 2: dx = i + 1, dy = j; break;
+		case 3: dx = i, dy = j - 1; break;
 		}
-		find = false;
-		while (di<4 && !find)   //找相邻可走方块(i1,j1)
-		{
-			di++;
-			switch (di)
-			{
-			case 0:i1 = i - 1; j1 = j;   break;
-			case 1:i1 = i;   j1 = j + 1; break;
-			case 2:i1 = i + 1; j1 = j;   break;
-			case 3:i1 = i;   j1 = j - 1; break;
-			}
-			if (mg[i1][j1] == 0)  find = true;
-			//找到一个相邻可走方块，设置find为真
+		if (MG[dx][dy] == 0) {
+			i = dx; j = dy;
+			return true;
 		}
-		if (find)  		//找到了一个相邻可走方块(i1,j1)
-		{
-			st->data[st->top].di = di;	  //修改原栈顶元素的di值
-			e.i = i1; e.j = j1; e.di = -1;
-			Push(st, e);		  //相邻可走方块e进栈
-			mg[i1][j1] = -1;
-			//(i1,j1)迷宫值置为-1避免重复走到该方块
-		}
-		else			//没有路径可走,则退栈
-		{
-			Pop(st, e);	//将栈顶方块退栈
-			mg[e.i][e.j] = 0;
-			//让退栈方块的位置变为其他路径可走方块
-		}
+		di++;
 	}
-	DestroyStack(st);	//销毁栈
-	return false;		//表示没有可走路径
+	return false;
 }
 
-void mgpath_example()
+bool MGpath(int xi, int yi, int xe, int ye)		//入口（xi, yi) 、出口（xe, ye）
 {
-	if (!mgpath(1, 1, 8, 8)) {
-		printf("该迷宫问题没有解!");
+	int i = xi, j = yi, di;
+	Box e, path[MAX_SIZE];
+	SqStack<Box> *st = 0;
+	InitStack(st);
+	e.x = xi, e.y = yi, e.z = -1;		
+	Push(st, e);		//压栈，记录起点位置
+
+	while (!StackEmpty(st))
+	{
+		GetTop(st, e);
+		if (e.x == xe && e.y == ye)		//到达出口位置
+		{
+			int k = 0;
+			while (st->top >= 0)
+			{
+				Pop(st, e);
+				path[k++] = e;		//出栈并将数据存入数组
+			}
+			while (k > 0)
+			{
+				k--;
+				cout << "\t(" << path[k].x << "," << path[k].y << ")";		//打印路径
+				if ((k + 2) % 5 == 0)
+					cout << endl;
+			}
+			DestroyStack(st);
+			return true;
+		}
+		else
+		{
+			if (Dirction(i, j, di))		//判断下步方向
+			{
+				st->data[st->top].z = di;
+				e.x = i; e.y = j;
+				Push(st, e);
+				MG[e.x][e.y] = -1;			
+			}
+			else if (!Dirction(i, j, di) && StackEmpty(st))		//无路可走、没有退路（栈为空）
+			{
+				cout << "No answer!\n";	
+				return false;
+			}
+			else		//无路可走、有退路（栈不为空）
+			{
+				Pop(st, e);				//出栈（退一步）
+				MG[e.x][e.y] = 1;		//标记走过的死胡同
+				st->data[st->top].z = -1;
+				GetTop(st, e);
+				i = e.x, j = e.y;
+			}					
+		}
 	}
 }
