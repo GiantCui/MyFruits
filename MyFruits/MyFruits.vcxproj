@@ -149,6 +149,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\basic.h" />
+    <ClInclude Include="include\LinkQueue.h" />
+    <ClInclude Include="include\LinkQueueExamples.h" />
     <ClInclude Include="include\SqStack.h" />
     <ClInclude Include="include\SqStackExamples.h" />
   </ItemGroup>
