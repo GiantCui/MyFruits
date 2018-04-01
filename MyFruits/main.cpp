@@ -1,8 +1,9 @@
 #include"include\SqStackExamples.h"
+#include"include\LinkQueueExamples.h"
 
 
 int main()
 {
-	MGpath(1, 1, 8, 8);
+	LinkQueueExample();
 	return 0;
 }

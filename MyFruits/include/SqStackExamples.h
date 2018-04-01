@@ -232,7 +232,7 @@ typedef struct Box
 	int x;		//行坐标
 	int y;		//列坐标
 	int z;		//方向
-};
+}Box;
 
 int MG[8 + 2][8 + 2] =				//二维地图
 {
@@ -324,4 +324,5 @@ bool MGpath(int xi, int yi, int xe, int ye)		//入口（xi, yi) 、出口（xe, ye）
 			}					
 		}
 	}
+	return true;
 }
