@@ -150,6 +150,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\basic.h" />
+    <ClInclude Include="include\DLinkQueue.h" />
+    <ClInclude Include="include\DLinkQueueExample.h" />
     <ClInclude Include="include\LinkQueue.h" />
     <ClInclude Include="include\LinkQueueExamples.h" />
     <ClInclude Include="include\SqStack.h" />

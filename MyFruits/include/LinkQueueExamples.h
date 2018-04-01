@@ -16,4 +16,5 @@ void LinkQueueExample()
 		deQueue(q, e);
 		cout << '\t' << e;
 	}
+	DestroyQueue(q);
 }
