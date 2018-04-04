@@ -18,3 +18,8 @@ void LinkQueueExample()
 	}
 	DestroyQueue(q);
 }
+
+void Josephproblem()
+{
+
+}

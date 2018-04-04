@@ -154,6 +154,7 @@
     <ClInclude Include="include\DLinkQueueExample.h" />
     <ClInclude Include="include\LinkQueue.h" />
     <ClInclude Include="include\LinkQueueExamples.h" />
+    <ClInclude Include="include\PTA_3.h" />
     <ClInclude Include="include\SqStack.h" />
     <ClInclude Include="include\SqStackExamples.h" />
   </ItemGroup>
